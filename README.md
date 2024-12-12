@@ -18,11 +18,6 @@ This project uses the **BDD100K dataset** to train a YOLOv8 model for crosswalk 
 
 ## How to Run
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-username/bdd100k-crosswalk-detection.git
-   cd bdd100k-crosswalk-detection
-
 Install Dependencies:
 pip install ultralytics pyyaml tqdm
 
