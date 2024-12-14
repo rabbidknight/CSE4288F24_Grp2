@@ -6,8 +6,12 @@ from ultralytics import YOLO
 
 # Step 1: Download and Extract BDD100K Dataset
 def download_bdd100k():
-    url = "https://dl.cv.ethz.ch/bdd100k/data/bdd100k_images.zip"
-    labels_url = "https://dl.cv.ethz.ch/bdd100k/data/bdd100k_labels_release.zip"
+
+    # URL not working, 404 Error
+    url = "https://dl.cv.ethz.ch/bdd100k/images/bdd100k_images.zip"
+    labels_url = "https://dl.cv.ethz.ch/bdd100k/labels/bdd100k_labels_release.zip"
+
+
     
     dataset_dir = "bdd100k"
     os.makedirs(dataset_dir, exist_ok=True)
