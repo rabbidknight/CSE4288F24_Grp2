@@ -73,11 +73,11 @@ def organize_bdd100k():
 def create_yaml(train_images, val_images, output_path="bdd100k.yaml"):
     print("Creating YAML configuration for YOLOv8...")
     yaml_content = f"""
-train: {train_images}
-val: {val_images}
-nc: 1
-names: ['crosswalk']
-"""
+        train: {train_images}
+        val: {val_images}
+        nc: 1
+        names: ['crosswalk']
+        """
     with open(output_path, "w") as f:
         f.write(yaml_content)
     print(f"YAML configuration saved to {output_path}")
