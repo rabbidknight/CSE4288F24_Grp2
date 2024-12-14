@@ -10,8 +10,7 @@ This project uses the **BDD100K dataset** to train a YOLOv8 model for crosswalk 
 ### BDD100K
 - **Description**: A large-scale driving dataset with object annotations, including bounding boxes.
 - **Download**:
-  - [BDD100K Images](https://dl.cv.ethz.ch/bdd100k/data/bdd100k_images.zip)
-  - [BDD100K Labels](https://dl.cv.ethz.ch/bdd100k/data/bdd100k_labels_release.zip)
+  https://dl.cv.ethz.ch/bdd100k/data/
 - **Format**: Includes images and bounding box labels in JSON format.
 
 ---
