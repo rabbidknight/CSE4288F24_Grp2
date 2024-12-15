@@ -7,9 +7,9 @@ import random
 import shutil
 
 # Paths
-images_dir = "../../OneDrive/Desktop/YOLO-crosswalk/images/10k/train"  # Folder containing all images
-labels_file = "../../OneDrive/Desktop/YOLO-crosswalk/lane_train.json"  # Path to the single JSON file with all labels
-output_dir = "../../OneDrive/Desktop/YOLO-crosswalk/yolo_dataset"  # Folder to store YOLO dataset
+images_dir = "images/10k/train"  # Folder containing all images
+labels_file = "lane_train.json"  # Path to the single JSON file with all labels
+output_dir = "yolo_dataset"  # Folder to store YOLO dataset
 
 # YOLO class ID for "crosswalk"
 CROSSWALK_CLASS_ID = 0  # Update if needed
