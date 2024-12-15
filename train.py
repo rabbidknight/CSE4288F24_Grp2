@@ -6,33 +6,28 @@ from ultralytics import YOLO
 
 # Step 1: Download and Extract BDD100K Dataset
 def download_bdd100k():
+    """
+    Downloads and extracts the BDD100K dataset (images and labels).
+    """
+    urls = {
+        "train_images": "https://dl.cv.ethz.ch/bdd100k/data/100k_images_train.zip",
+        "val_images": "https://dl.cv.ethz.ch/bdd100k/data/100k_images_val.zip",
+        "labels": "https://dl.cv.ethz.ch/bdd100k/data/bdd100k_det_20_labels_trainval.zip"
+    }
 
-    # URL not working: 404 not found
-    url = "https://dl.cv.ethz.ch/bdd100k/data/bdd100k_images.zip"
-    labels_url = "https://dl.cv.ethz.ch/bdd100k/data/bdd100k_labels_release.zip"
-    
     dataset_dir = "bdd100k"
     os.makedirs(dataset_dir, exist_ok=True)
 
-    # Download Images
-    images_zip_path = os.path.join(dataset_dir, "bdd100k_images.zip")
-    if not os.path.exists(images_zip_path):
-        print("Downloading BDD100K images...")
-        download_file(url, images_zip_path)
-    else:
-        print("BDD100K images already downloaded.")
-    
-    # Download Labels
-    labels_zip_path = os.path.join(dataset_dir, "bdd100k_labels.zip")
-    if not os.path.exists(labels_zip_path):
-        print("Downloading BDD100K labels...")
-        download_file(labels_url, labels_zip_path)
-    else:
-        print("BDD100K labels already downloaded.")
-
-    # Extract Files
-    extract_zip(images_zip_path, dataset_dir)
-    extract_zip(labels_zip_path, dataset_dir)
+    for key, url in urls.items():
+        output_path = os.path.join(dataset_dir, f"{key}.zip")
+        if not os.path.exists(output_path):
+            print(f"Downloading {key} from {url}...")
+            download_file(url, output_path)
+        else:
+            print(f"{key} already downloaded.")
+        
+        # Extract the downloaded file
+        extract_zip(output_path, dataset_dir)
 
 
 def download_file(url, output_path):
