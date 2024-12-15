@@ -6,13 +6,12 @@ from tqdm import tqdm
 import random
 import shutil
 
-# Paths
 images_dir = "images/10k/train"  # Folder containing all images
 labels_file = "lane_train.json"  # Path to the single JSON file with all labels
 output_dir = "yolo_dataset"  # Folder to store YOLO dataset
 
 # YOLO class ID for "crosswalk"
-CROSSWALK_CLASS_ID = 0  # Update if needed
+CROSSWALK_CLASS_ID = 0
 
 # Create output folders
 os.makedirs(f"{output_dir}/images/train", exist_ok=True)
@@ -20,8 +19,8 @@ os.makedirs(f"{output_dir}/images/val", exist_ok=True)
 os.makedirs(f"{output_dir}/labels/train", exist_ok=True)
 os.makedirs(f"{output_dir}/labels/val", exist_ok=True)
 
-# Function to convert polygon to bounding box
 
+# Convert polygon to bounding box
 def polygon_to_bbox(vertices, image_width, image_height):
     x_coords = [v[0] for v in vertices]
     y_coords = [v[1] for v in vertices]
@@ -34,11 +33,9 @@ def polygon_to_bbox(vertices, image_width, image_height):
     # Normalize values to [0, 1]
     return x_center / image_width, y_center / image_height, width / image_width, height / image_height
 
-# Load the single JSON file
 with open(labels_file, "r") as f:
     labels_data = json.load(f)
 
-# Build a lookup table for labels by image name
 labels_by_image = {}
 for item in labels_data:
     if "labels" in item:
@@ -47,7 +44,6 @@ for item in labels_data:
 # Parse images and process labels
 image_files = list(Path(images_dir).glob("*.jpg"))
 
-# Shuffle for train-val split
 random.shuffle(image_files)
 split_ratio = 0.8
 train_files = image_files[:int(len(image_files) * split_ratio)]
