@@ -1,5 +1,6 @@
 # Crosswalk Detection Using BDD100K
-
+GROUP 2 - CSE4288 project 
+bora duman 150121043
 ## Overview
 This project uses the **BDD100K dataset** to train a YOLOv8 model for crosswalk detection. The dataset is recorded from a car's perspective and provides annotated bounding boxes, making it suitable for autonomous driving applications.
 
