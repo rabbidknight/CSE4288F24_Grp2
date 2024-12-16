@@ -6,7 +6,7 @@ from tqdm import tqdm
 import random
 import shutil
 
-images_dir = "images/10k/train"  # Folder containing all images
+images_dir = "images/100k/train"  # Folder containing all images
 labels_file = "lane_train.json"  # Path to the single JSON file with all labels
 output_dir = "yolo_dataset"  # Folder to store YOLO dataset
 
@@ -54,13 +54,13 @@ for image_path in tqdm(train_files + val_files):
 
     # Skip if no labels are found for the image
     if image_name not in labels_by_image:
-        print(f"Skipping: No labels for {image_name}")
+        #print(f"Skipping: No labels for {image_name}")
         continue
 
     # Load image to get dimensions
     image = cv2.imread(str(image_path))
     if image is None:
-        print(f"Skipping: Unable to load image {image_name}")
+        #print(f"Skipping: Unable to load image {image_name}")
         continue
     height, width, _ = image.shape
 
@@ -77,7 +77,7 @@ for image_path in tqdm(train_files + val_files):
 
     # Skip images without crosswalks
     if not yolo_labels:
-        print(f"Skipping: No crosswalk labels for {image_name}")
+        #print(f"Skipping: No crosswalk labels for {image_name}")
         continue
 
     # Determine output subfolder
