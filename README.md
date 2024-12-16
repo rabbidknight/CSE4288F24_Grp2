@@ -1,8 +1,6 @@
 # Crosswalk Detection Using BDD100K
-GROUP 2 - CSE4288 project 
+GROUP 2 - CSE4288 TERM PROJECT
 
-Duru Baştunalı 150120075
-bora duman 150121043
 ## Overview
 This project uses the **BDD100K dataset** to train a YOLOv8 model for crosswalk detection. The dataset is recorded from a car's perspective and provides annotated bounding boxes, making it suitable for autonomous driving applications.
 
@@ -12,16 +10,18 @@ This project uses the **BDD100K dataset** to train a YOLOv8 model for crosswalk 
 
 ### BDD100K
 - **Description**: A large-scale driving dataset with object annotations, including bounding boxes.
-- **Download**:
-  https://dl.cv.ethz.ch/bdd100k/data/
+- **Training Set**: https://dl.cv.ethz.ch/bdd100k/data/100k_images_train.zip
+- **Labels**: https://dl.cv.ethz.ch/bdd100k/data/bdd100k_lane_labels_trainval.zip
+
 - **Format**: Includes images and bounding box labels in JSON format.
 
 ---
 
 ## How to Run
 
-Install Dependencies:
-pip install ultralytics pyyaml tqdm
+1. Extract images from zip and add the images file to your project root directory.
+2. Add labels json to your project root directory.
+3. Run preprocessing code.
+4. Run training code.
+5. Add the image you would like to detect crosswalk in and run test.
 
-Run the Script:
-python convert_and_train_crosswalk.py
