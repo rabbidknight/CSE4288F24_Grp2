@@ -2,26 +2,21 @@ import os
 import json
 import cv2
 from pathlib import Path
-from tqdm import tqdm
 import random
-import shutil
 
-images_dir = "images/10k/train"  # Folder containing all images
-labels_file = "lane_train.json"  # Path to the single JSON file with all labels
-output_dir = "yolo_dataset"  # Folder to store YOLO dataset
+images_dir = "images/10k/train"  # Training images
+labels_file = "lane_train.json"  # Label file
+output_dir = "yolo_dataset"  # Prepared dataset for YOLO
 
-# YOLO class ID for "crosswalk"
-CROSSWALK_CLASS_ID = 0
+CROSSWALK_CLASS_ID = 0  # Class ID for crosswalk = 0 (has no significance)
 
-# Create output folders
 os.makedirs(f"{output_dir}/images/train", exist_ok=True)
 os.makedirs(f"{output_dir}/images/val", exist_ok=True)
 os.makedirs(f"{output_dir}/labels/train", exist_ok=True)
 os.makedirs(f"{output_dir}/labels/val", exist_ok=True)
 
 
-# Convert polygon to bounding box
-def polygon_to_bbox(vertices, image_width, image_height):
+def polygon_to_bbox(vertices, image_width, image_height):  # Convert 2D polygons into YOLO boundaries
     x_coords = [v[0] for v in vertices]
     y_coords = [v[1] for v in vertices]
     x_min, x_max = max(0, min(x_coords)), min(image_width, max(x_coords))
@@ -30,32 +25,32 @@ def polygon_to_bbox(vertices, image_width, image_height):
     height = y_max - y_min
     x_center = x_min + width / 2
     y_center = y_min + height / 2
-    # Normalize values to [0, 1]
+    # YOLO LABEL FORMAT = <x center>, <y center> <width> <height>, ALL NORMALIZED!
     return x_center / image_width, y_center / image_height, width / image_width, height / image_height
 
-with open(labels_file, "r") as f:
+
+with open(labels_file, "r") as f:  # Load the labels file
     labels_data = json.load(f)
 
 labels_by_image = {}
 for item in labels_data:
     if "labels" in item:
-        labels_by_image[item["name"]] = item["labels"]
+        labels_by_image[item["name"]] = item["labels"]  # Retrieve each label of the image and create dictionary
 
-# Parse images and process labels
+# Parse images and process labels = For setting the set as training and validation randomly
 image_files = list(Path(images_dir).glob("*.jpg"))
-
 random.shuffle(image_files)
 split_ratio = 0.8
 train_files = image_files[:int(len(image_files) * split_ratio)]
 val_files = image_files[int(len(image_files) * split_ratio):]
 
-for image_path in tqdm(train_files + val_files):
+# --------------------------------------------------------
+for image_path in train_files + val_files:
     image_name = image_path.name
 
-    # Skip if no labels are found for the image
     if image_name not in labels_by_image:
         print(f"Skipping: No labels for {image_name}")
-        continue
+        continue  # Skipped for unlabeled images
 
     # Load image to get dimensions
     image = cv2.imread(str(image_path))
@@ -75,10 +70,9 @@ for image_path in tqdm(train_files + val_files):
                 bbox = polygon_to_bbox(poly["vertices"], width, height)
                 yolo_labels.append(f"{CROSSWALK_CLASS_ID} {' '.join(map(str, bbox))}")
 
-    # Skip images without crosswalks
     if not yolo_labels:
         print(f"Skipping: No crosswalk labels for {image_name}")
-        continue
+        continue  # Skipped for images with no crosswalk
 
     # Determine output subfolder
     subfolder = "train" if image_path in train_files else "val"
@@ -89,19 +83,19 @@ for image_path in tqdm(train_files + val_files):
     with open(label_file, "w") as f:
         f.write("\n".join(yolo_labels))
 
-    # Copy image to corresponding folder
+    # Copy image to corresponding folder using basic file operations
+    with open(image_path, "rb") as src_file:
+        with open(image_output_path, "wb") as dest_file:
+            dest_file.write(src_file.read())
+# --------------------------------------------------------
 
-
-    shutil.copy(image_path, image_output_path)
-
-# Create YOLO configuration files
-with open(f"{output_dir}/data.yaml", "w") as f:
+with open(f"{output_dir}/data.yaml", "w") as f:  # Create the data.yaml file for YOLO-acceptability
     f.write(f"""
-train: {output_dir}/images/train
-val: {output_dir}/images/val
+        train: {output_dir}/images/train
+        val: {output_dir}/images/val
 
-nc: 1  # Number of classes
-names: ['crosswalk']  # Class names
-""")
+        nc: 1  # Number of classes
+        names: ['crosswalk']  # Class names
+        """)
 
 print("Dataset preparation completed.")
