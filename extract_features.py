@@ -15,8 +15,7 @@ VAL_FEATURES = "features_val.npy"
 # Prepare the feature extraction model
 def prepare_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # Check if GPU is available
-    if torch.cuda.is_available():
-        print("GPU is being used")
+    print(f"Using {device}!")
     model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)  # Load pre-trained ResNet50 model
     model.eval()  # Set the model to evaluation mode
     feature_extractor = torch.nn.Sequential(*list(model.children())[:-1])  # Remove the fully connected layer
