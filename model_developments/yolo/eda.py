@@ -2,8 +2,8 @@ import os
 from pathlib import Path
 
 # Paths
-labels_dir = "yolo_dataset/labels/train"  # Folder containing training labels
-val_labels_dir = "yolo_dataset/labels/val"  # Folder containing validation labels
+labels_dir = "../../yolo_dataset/labels/train"  # Folder containing training labels
+val_labels_dir = "../../yolo_dataset/labels/val"  # Folder containing validation labels
 
 # Function to count crosswalk annotations
 def count_crosswalks(label_folder):

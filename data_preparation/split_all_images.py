@@ -3,8 +3,8 @@ import json
 from sklearn.model_selection import train_test_split
 
 #Paths
-image_dir = "images/100k/train/"
-json_path = "lane_train.json"
+image_dir = "../images/100k/train/"
+json_path = "../lane_train.json"
 output_dir = "splits/"
 os.makedirs(output_dir, exist_ok=True)
 

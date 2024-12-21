@@ -1,7 +1,7 @@
 import os
 import json
 import numpy as np
-from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -10,7 +10,8 @@ from tqdm import tqdm  # Progress bar library
 # Path definitions
 TRAIN_FEATURES = "features_train.npy"
 VAL_FEATURES = "features_val.npy"
-JSON_PATH = "lane_train.json"  # JSON file path
+JSON_PATH = "../../lane_train.json"  # JSON file path
+K = 5  # Number of neighbors for KNN
 
 # Load the features from the saved .npy files
 def load_features(feature_file):
@@ -52,18 +53,18 @@ if __name__ == "__main__":
     y_train = np.array([labels[name] for name in tqdm(train_names, desc="Mapping training labels")])
     y_val = np.array([labels[name] for name in tqdm(val_names, desc="Mapping validation labels")])
 
-    # Train the Logistic Regression model
-    print("Training Logistic Regression model...")
-    lr = LogisticRegression(max_iter=1000)
-    lr.fit(X_train, y_train)
+    # Train the KNN model
+    print(f"Training KNN model with K={K}...")
+    knn = KNeighborsClassifier(n_neighbors=K)
+    knn.fit(X_train, y_train)
 
     # Make predictions on the validation set
     print("Predicting on validation set...")
-    y_pred = lr.predict(X_val)
+    y_pred = knn.predict(X_val)
 
     # Evaluate the model accuracy
     accuracy = accuracy_score(y_val, y_pred)
-    print(f"Logistic Regression Model Accuracy: {accuracy * 100:.2f}%")
+    print(f"KNN Model Accuracy: {accuracy * 100:.2f}%")
 
     # Classification Report
     print("Classification Report:")
@@ -78,3 +79,5 @@ if __name__ == "__main__":
     plt.ylabel('True Label')
     plt.title('Confusion Matrix')
     plt.show()
+
+    
