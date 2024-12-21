@@ -4,7 +4,7 @@ import cv2
 from pathlib import Path
 import random
 
-images_dir = "images/10k/train"  # Training images
+images_dir = "images/100k/train"  # Training images
 labels_file = "lane_train.json"  # Label file
 output_dir = "yolo_dataset"  # Prepared dataset for YOLO
 
