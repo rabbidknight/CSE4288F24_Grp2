@@ -1,2 +1,7 @@
 
 bdd100k/train_images.zip
+images/
+yolo_dataset/
+lane_train.json
+runs/
+splits/
