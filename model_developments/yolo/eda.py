@@ -1,16 +1,12 @@
-import os
 from pathlib import Path
 
-# Paths
 labels_dir = "../../yolo_dataset/labels/train"  # Folder containing training labels
 val_labels_dir = "../../yolo_dataset/labels/val"  # Folder containing validation labels
 
-# Function to count crosswalk annotations
 def count_crosswalks(label_folder):
     total_annotations = 0
     crosswalks_per_image = []
 
-    # Iterate over all label files
     for label_file in Path(label_folder).glob("*.txt"):
         with open(label_file, "r") as f:
             lines = f.readlines()
@@ -33,7 +29,6 @@ count_per_image = 0
 max_count = 0
 min_count = 10
 
-
 # Print the results
 print("Crosswalk Statistics:")
 print(f"Total number of crosswalk annotations: {total_annotations}")
@@ -46,7 +41,6 @@ for i, count in enumerate(all_crosswalks_per_image, start=1):
         min_count = count
     if count > max_count:
         max_count = count
-
 
 print("Average crosswalk count per image is:", count_per_image / images_with_crosswalks)
 print("Maximum crosswalk count per image is:", max_count)
