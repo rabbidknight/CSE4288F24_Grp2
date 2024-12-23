@@ -12,7 +12,7 @@ TRAIN_FEATURES = "features_train.npy"
 VAL_FEATURES = "features_val.npy"  
 
 # Label path
-JSON_PATH = "../../lane_train.json"  
+JSON_PATH = "lane_train.json"  
 
 if __name__ == "__main__":
     # Load the training and validation feature vectors and names of the images
