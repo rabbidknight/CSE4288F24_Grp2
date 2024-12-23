@@ -1,7 +1,5 @@
-import os
 import json
 import numpy as np
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
