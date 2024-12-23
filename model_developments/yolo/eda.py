@@ -1,7 +1,7 @@
 from pathlib import Path
 
-labels_dir = "../../yolo_dataset/labels/train"  # Folder containing training labels
-val_labels_dir = "../../yolo_dataset/labels/val"  # Folder containing validation labels
+labels_dir = "yolo_dataset/labels/train"  # Folder containing training labels
+val_labels_dir = "yolo_dataset/labels/val"  # Folder containing validation labels
 
 def count_crosswalks(label_folder):
     total_annotations = 0
@@ -25,9 +25,9 @@ total_annotations = train_total + val_total
 all_crosswalks_per_image = train_crosswalks_per_image + val_crosswalks_per_image
 images_with_crosswalks = len([count for count in all_crosswalks_per_image if count > 0])
 
-count_per_image = 0
-max_count = 0
-min_count = 10
+count_per_image = 0  # Count of crosswalks per image
+max_count = 0  # Maximum count of crosswalk in an image
+min_count = 10  # Minimum count of crosswalk in an image, = 1
 
 # Print the results
 print("Crosswalk Statistics:")
