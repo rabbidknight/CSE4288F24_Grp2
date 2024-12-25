@@ -10,7 +10,7 @@ from tqdm import tqdm  # Progress bar library
 # Path definitions
 TRAIN_FEATURES = "features_train.npy"   # Path of the training features
 VALIDATION_FEATURES = "features_val.npy"       # Path of the validation features
-JSON_PATH = "../../lane_train.json"     # JSON file path
+JSON_PATH = "lane_train.json"     # JSON file path
 K = 5  # Number of neighbors
 
 # Load the features from the saved .npy files

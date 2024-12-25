@@ -1,25 +1,25 @@
-import os
+# Library imports
 import json
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
-from tqdm import tqdm  # Progress bar library
+from tqdm import tqdm
 
-# Path definitions
+# Path definitions for image embedding results
 TRAIN_FEATURES = "features_train.npy"
 VAL_FEATURES = "features_val.npy"
-JSON_PATH = "../../lane_train.json"  # JSON file path
+JSON_PATH = "lane_train.json"  # JSON file path for labels
 
-# Load the features from the saved .npy files
+# Load the features from .npy files
 def load_features(feature_file):
-    features_dict = np.load(feature_file, allow_pickle=True).item()  # Load the feature dictionary
-    image_names = list(features_dict.keys())  # Get the list of image names
+    features_dict = np.load(feature_file, allow_pickle=True).item()
+    image_names = list(features_dict.keys())
     features = np.array(list(features_dict.values()))  # Get the feature vectors
     return features, image_names
 
-# Load labels from JSON
+# Load labels from JSON file
 def load_labels(json_path):
     with open(json_path, "r") as f:
         annotations = json.load(f)
@@ -27,16 +27,13 @@ def load_labels(json_path):
     labels = {}
     for entry in tqdm(annotations, desc="Processing labels", unit="image"):
         image_name = entry["name"]
-
         if "labels" in entry:
             has_crosswalk = any(label["category"] == "crosswalk" for label in entry["labels"])
             labels[image_name] = 1 if has_crosswalk else 0
         else:
             labels[image_name] = 0
-
     return labels
 
-# Main function
 if __name__ == "__main__":
     # Load the training and validation features
     print("Loading training and validation features...")
@@ -52,24 +49,24 @@ if __name__ == "__main__":
     y_train = np.array([labels[name] for name in tqdm(train_names, desc="Mapping training labels")])
     y_val = np.array([labels[name] for name in tqdm(val_names, desc="Mapping validation labels")])
 
-    # Train the Decision Tree model
+    # Training of Decision Tree model
     print("Training Decision Tree model...")
-    dtc = DecisionTreeClassifier()
-    dtc.fit(X_train, y_train)
+    decision_tree_model = DecisionTreeClassifier()
+    decision_tree_model.fit(X_train, y_train)
 
-    # Make predictions on the validation set
+    # Make prediction
     print("Predicting on validation set...")
-    y_pred = dtc.predict(X_val)
+    y_pred = decision_tree_model.predict(X_val)
 
-    # Evaluate the model accuracy
+    # Evaluating model accuracy
     accuracy = accuracy_score(y_val, y_pred)
     print(f"Decision Tree Model Accuracy: {accuracy * 100:.2f}%")
 
-    # Classification Report
+    # Printing classification report
     print("Classification Report:")
     print(classification_report(y_val, y_pred, target_names=['No Crosswalk', 'Crosswalk']))
 
-    # Confusion Matrix
+    # Generate and print Confusion Matrix
     print("Generating confusion matrix...")
     cm = confusion_matrix(y_val, y_pred)
     plt.figure(figsize=(8, 6))
