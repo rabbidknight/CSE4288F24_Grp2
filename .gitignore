@@ -5,3 +5,4 @@ yolo_dataset/
 lane_train.json
 runs/
 splits/
+*.npy
