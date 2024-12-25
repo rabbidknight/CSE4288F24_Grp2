@@ -4,7 +4,6 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
-from tqdm import tqdm  # Progress bar library
 
 # Paths of the feature files
 TRAIN_FEATURES = "features_train.npy"
@@ -31,7 +30,7 @@ def load_labels(json_path):
     labels = {}
     
     # Go through each line in the json file
-    for entry in tqdm(annotations, desc="Processing labels", unit="image"):
+    for entry in annotations:
         # Get the name of the current image
         image_name = entry["name"]
         
@@ -58,8 +57,8 @@ if __name__ == "__main__":
 
     # Map labels to training and validation images and save it as it will serve as y values (target values)
     print("Mapping labels to training and validation images...")
-    y_train = np.array([labels[name] for name in tqdm(train_names, desc="Mapping training labels")])
-    y_val = np.array([labels[name] for name in tqdm(val_names, desc="Mapping validation labels")])
+    y_train = np.array([labels[name] for name in train_names])
+    y_val = np.array([labels[name] for name in val_names])
 
 
     # Train the Logistic Regression model!

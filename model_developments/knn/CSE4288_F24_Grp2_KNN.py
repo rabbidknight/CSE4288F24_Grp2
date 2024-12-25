@@ -5,7 +5,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
-from tqdm import tqdm  # Progress bar library
 
 # Path definitions
 TRAIN_FEATURES = "features_train.npy"   # Path of the training features
@@ -26,7 +25,7 @@ def load_labels(json_path):
         image_metadata = json.load(f)
 
     labels = {}
-    for entry in tqdm(image_metadata, desc="Processing labels", unit="image"):
+    for entry in image_metadata:
         image_name = entry["name"]
         
         if "labels" in entry:   # Check if the image has labels
@@ -51,8 +50,8 @@ if __name__ == "__main__":
 
     # Map labels to training and validation images
     print("Mapping labels to training and validation images...")
-    y_train = np.array([labels[name] for name in tqdm(train_names, desc="Mapping training labels")])
-    y_validation = np.array([labels[name] for name in tqdm(val_names, desc="Mapping validation labels")])
+    y_train = np.array([labels[name] for name in train_names])
+    y_validation = np.array([labels[name] for name in val_names])
 
     # Train the KNN model
     print(f"Training KNN model with K={K}...")

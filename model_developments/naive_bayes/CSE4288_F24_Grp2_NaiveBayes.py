@@ -5,7 +5,6 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
-from tqdm import tqdm  # Progress bar library
 
 # Path definitions
 TRAIN_FEATURES = "features_train.npy"
@@ -25,7 +24,7 @@ def load_labels(json_path):
         annotations = json.load(f)
 
     labels = {}
-    for entry in tqdm(annotations, desc="Processing labels", unit="image"):
+    for entry in annotations:
         image_name = entry["name"]
 
         if "labels" in entry:
@@ -48,8 +47,8 @@ if __name__ == "__main__":
 
     # Map labels to training and validation images
     print("Mapping labels to training and validation images...")
-    y_train = np.array([labels[name] for name in tqdm(train_names, desc="Mapping training labels")])
-    y_val = np.array([labels[name] for name in tqdm(val_names, desc="Mapping validation labels")])
+    y_train = np.array([labels[name] for name in train_names])
+    y_val = np.array([labels[name] for name in val_names])
 
     # Initialize and train the Naive Bayes model
     print("Training Naive Bayes model (GaussianNB)...")
